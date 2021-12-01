@@ -3,6 +3,7 @@ from django.views.generic import View, RedirectView
 from .forms import SearchForm
 from .api_interations import search_recipe, get_recipe
 from .models import Recipe, Ingredient
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
@@ -20,7 +21,7 @@ class SearchRecipes(View):
             data=None
         return render(request, self.template_name, {'form': form, 'recipe_list': data})
 
-class FetchDataToDB(RedirectView):
+class FetchDataToDB(LoginRequiredMixin,RedirectView):
     pattern_name = 'search'
 
     def get_redirect_url(self, *args, **kwargs):
